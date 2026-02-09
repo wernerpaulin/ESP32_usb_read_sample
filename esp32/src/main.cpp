@@ -2,36 +2,46 @@
 
 // LED pins
 constexpr int RED_LED    = 25;
-constexpr int GREEN_LED  = 27;
-constexpr int YELLOW_LED = 26;
+constexpr int GREEN_LED  = 26;
+constexpr int YELLOW_LED = 27;
 
-// put function declarations here:
-int myFunction(int, int);
+void lightLed(int pin) {
+  digitalWrite(pin, HIGH);
+  delay(400);
+  digitalWrite(pin, LOW);
+}
 
 void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
   Serial.begin(9600);
+  delay(1000);
 
   pinMode(RED_LED, OUTPUT);
   pinMode(GREEN_LED, OUTPUT);
-  pinMode(YELLOW_LED, OUTPUT);  
+  pinMode(YELLOW_LED, OUTPUT);
+
+  Serial.println("ESP32 ready");
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-  Serial.println("Ready to receive data...");
-  digitalWrite(RED_LED, HIGH);
-  digitalWrite(GREEN_LED, HIGH);
-  digitalWrite(YELLOW_LED, HIGH);
-  delay(1000);
-  digitalWrite(RED_LED, LOW);
-  digitalWrite(GREEN_LED, LOW);
-  digitalWrite(YELLOW_LED, LOW);
-  delay(1000);
+  if (Serial.available()) {
+    String cmd = Serial.readStringUntil('\n');
+    cmd.trim();  // remove \r, spaces, etc.
+
+    if (cmd == "BIN_1") {
+      lightLed(RED_LED);
+    } 
+    else if (cmd == "BIN_2") {
+      lightLed(GREEN_LED);
+    } 
+    else if (cmd == "BIN_3") {
+      lightLed(YELLOW_LED);
+    } 
+    else {
+      Serial.print("Unknown command: ");
+      Serial.println(cmd);
+      lightLed(RED_LED);
+    }
+  }
 }
 
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
-}
+
