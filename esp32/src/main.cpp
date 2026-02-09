@@ -31,15 +31,14 @@ void loop() {
       lightLed(RED_LED);
     } 
     else if (cmd == "BIN_2") {
-      lightLed(GREEN_LED);
+      lightLed(YELLOW_LED);
     } 
     else if (cmd == "BIN_3") {
-      lightLed(YELLOW_LED);
+      lightLed(GREEN_LED);
     } 
     else {
       Serial.print("Unknown command: ");
       Serial.println(cmd);
-      lightLed(RED_LED);
     }
   }
 }
