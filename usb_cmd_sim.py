@@ -22,4 +22,4 @@ while True:
     print(f"Sent: {cmd}")
 
     idx = (idx + 1) % len(commands)
-    time.sleep(1)
+    time.sleep(6)
